@@ -1,70 +1,79 @@
-let rows=[];
-let normalizedAll=[];
-let normalizedColumns={};
+let rows = [];
+let normalizedAll = [];
+let normalizedColumns = {};
 
-const columns=[
-  "Divison","Category","Item Code","Item Description",
-  "SDP","NRP","MRP","Discount 21.18%","Discount"
+const columns = [
+  "Divison",
+  "Category",
+  "Item Code",
+  "Item Description",
+  "SDP",
+  "NRP",
+  "MRP",
+  "Discount 21.18%",
+  "Discount"
 ];
 
-const norm=v=>String(v??"").toLowerCase();
+const normalize = value => String(value ?? "").toLowerCase();
 
-self.onmessage=e=>{
-  const m=e.data;
+self.onmessage = event => {
+  const message = event.data;
 
-  if(m.type==="load"){
-    rows=m.data||[];
-    normalizedAll=new Array(rows.length);
+  if (message.type === "load") {
+    rows = Array.isArray(message.data) ? message.data : [];
+    normalizedAll = new Array(rows.length);
 
-    for(const c of columns){
-      normalizedColumns[c]=new Array(rows.length);
+    for (const column of columns) {
+      normalizedColumns[column] = new Array(rows.length);
     }
 
-    for(let i=0;i<rows.length;i++){
-      const r=rows[i];
-      let all="";
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      let combined = "";
 
-      for(const c of columns){
-        const value=norm(r[c]);
-        normalizedColumns[c][i]=value;
-        all+=value+"\u0001";
+      for (const column of columns) {
+        const value = normalize(row[column]);
+        normalizedColumns[column][i] = value;
+        combined += value + "\u0001";
       }
 
-      normalizedAll[i]=all;
+      normalizedAll[i] = combined;
     }
 
-    self.postMessage({type:"loaded",count:rows.length});
+    self.postMessage({
+      type: "loaded",
+      count: rows.length
+    });
+
     return;
   }
 
-  if(m.type==="search"){
-    const term=norm(m.term);
+  if (message.type === "search") {
+    const term = normalize(message.term);
 
-    if(term.length<3){
+    if (term.length < 3) {
       self.postMessage({
-        type:"results",
-        indices:[],
-        requestId:m.requestId
+        type: "results",
+        indices: [],
+        requestId: message.requestId
       });
       return;
     }
 
-    const source=m.column==="all"
-      ? normalizedAll
-      : normalizedColumns[m.column];
+    // Always search ALL columns.
+    const source = normalizedAll;
+    const indices = [];
 
-    const indices=[];
-
-    for(let i=0;i<source.length;i++){
-      if(source[i].includes(term)){
+    for (let i = 0; i < source.length; i++) {
+      if (source[i].includes(term)) {
         indices.push(i);
       }
     }
 
     self.postMessage({
-      type:"results",
+      type: "results",
       indices,
-      requestId:m.requestId
+      requestId: message.requestId
     });
   }
 };
