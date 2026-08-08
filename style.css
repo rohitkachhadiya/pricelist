@@ -324,9 +324,16 @@ tbody tr:hover {
   td:nth-child(7),
   td:nth-child(8),
   td:nth-child(9) {
-    white-space: nowrap;
-    overflow-wrap: normal;
-    word-break: normal;
+    white-space: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+  }
+
+  /* Applied by script.js to every generated price and discount cell. */
+  td.amount-cell {
+    white-space: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
   }
 
   td:nth-child(3),

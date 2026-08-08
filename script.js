@@ -160,6 +160,16 @@ function render() {
       td.textContent = row[column] ?? "";
 
       if (
+        column === "SDP" ||
+        column === "NRP" ||
+        column === "MRP" ||
+        column === "Discount 21.18%" ||
+        column === "Discount"
+      ) {
+        td.classList.add("amount-cell");
+      }
+
+      if (
         column === "Discount 21.18%" ||
         column === "Discount"
       ) {
