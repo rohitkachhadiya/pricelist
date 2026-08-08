@@ -1,5 +1,6 @@
 let rows = [];
 let normalizedAll = [];
+let normalizedColumns = {};
 
 const columns = [
   "Divison",
@@ -22,12 +23,18 @@ self.onmessage = event => {
     rows = Array.isArray(message.data) ? message.data : [];
     normalizedAll = new Array(rows.length);
 
+    for (const column of columns) {
+      normalizedColumns[column] = new Array(rows.length);
+    }
+
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
       let combined = "";
 
-      for (let c = 0; c < columns.length; c++) {
-        combined += normalize(row[columns[c]]) + "\u0001";
+      for (const column of columns) {
+        const value = normalize(row[column]);
+        normalizedColumns[column][i] = value;
+        combined += value + "\u0001";
       }
 
       normalizedAll[i] = combined;
@@ -37,6 +44,7 @@ self.onmessage = event => {
       type: "loaded",
       count: rows.length
     });
+
     return;
   }
 
@@ -52,10 +60,12 @@ self.onmessage = event => {
       return;
     }
 
+    // Always search ALL columns.
+    const source = normalizedAll;
     const indices = [];
 
-    for (let i = 0; i < normalizedAll.length; i++) {
-      if (normalizedAll[i].includes(term)) {
+    for (let i = 0; i < source.length; i++) {
+      if (source[i].includes(term)) {
         indices.push(i);
       }
     }

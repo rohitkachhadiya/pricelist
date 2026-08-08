@@ -8,70 +8,67 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="container">
+  <main class="container">
+    <header>
+      <h1>Product Search</h1>
+      <p>Fast product price lookup</p>
+    </header>
 
-  <header>
-    <h1>Product Search</h1>
-    <p>Fast product price lookup</p>
-  </header>
+    <section class="search-panel">
+      <label for="search">Search</label>
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          id="search"
+          type="search"
+          placeholder="Type at least 3 characters..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search products"
+        >
+        <button id="clearInput" type="button" aria-label="Clear search">×</button>
+      </div>
+    </section>
 
-  <section class="search-panel">
-    <label for="search">Search</label>
-    <div class="search-box">
-      <span class="search-icon" aria-hidden="true">⌕</span>
-      <input
-        id="search"
-        type="search"
-        inputmode="search"
-        placeholder="Type at least 3 characters..."
-        autocomplete="off"
-        autocorrect="off"
-        autocapitalize="off"
-        spellcheck="false"
-        aria-label="Search products"
-      >
-    </div>
-  </section>
+    <section class="summary">
+      <strong id="resultCount">Loading data...</strong>
+      <span id="hint">Enter 3 or more characters to search.</span>
+    </section>
 
-  <section class="summary">
-    <strong id="resultCount">Loading data...</strong>
-    <span id="hint">Enter 3 or more characters to search.</span>
-  </section>
+    <section class="results-card">
+      <div class="table-container">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>Item Code</th>
+              <th>Description</th>
+              <th>Division</th>
+              <th>Category</th>
+              <th>SDP</th>
+              <th>NRP</th>
+              <th>MRP</th>
+              <th class="discount-heading">Discount<br>21.18%</th>
+              <th class="discount-heading">Discount</th>
+            </tr>
+          </thead>
+          <tbody id="results"></tbody>
+        </table>
+      </div>
 
-  <section class="results-card">
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Item Code</th>
-            <th>Description</th>
-            <th>Division</th>
-            <th>Category</th>
-            <th>SDP</th>
-            <th>NRP</th>
-            <th>MRP</th>
-            <th class="discount-heading">Discount<br>21.18%</th>
-            <th class="discount-heading">Discount</th>
-          </tr>
-        </thead>
-        <tbody id="results"></tbody>
-      </table>
-    </div>
+      <div id="empty" class="empty">
+        Enter a search term to see matching products.
+      </div>
+    </section>
 
-    <div id="empty" class="empty">
-      Enter a search term to see matching products.
-    </div>
-  </section>
+    <section class="pagination">
+      <button id="prevBtn" type="button">‹ Previous</button>
+      <span id="pageInfo">Page 0 of 0</span>
+      <button id="nextBtn" type="button">Next ›</button>
+    </section>
 
-  <section class="pagination">
-    <button id="prevBtn" type="button">‹ Previous</button>
-    <span id="pageInfo">Page 0 of 0</span>
-    <button id="nextBtn" type="button">Next ›</button>
-  </section>
+    <div id="recordInfo" class="record-info"></div>
+  </main>
 
-  <div id="recordInfo" class="record-info"></div>
-</main>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
