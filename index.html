@@ -3,26 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4f6f8">
 <title>Product Search</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-  <header class="topbar">
-    <div>
-      <h1>Product Search</h1>
-      <p>Fast product price lookup</p>
-    </div>
+
+  <header>
+    <h1>Product Search</h1>
+    <p>Fast product price lookup</p>
   </header>
 
   <section class="search-panel">
     <label for="search">Search</label>
-    <div class="search-line">
-      <input id="search" type="search" placeholder="Type 3+ characters..." autocomplete="off" spellcheck="false">
-      <button id="clearBtn" type="button">Clear</button>
+    <div class="search-row">
+      <div class="input-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="search" type="search" placeholder="Type at least 3 characters..."
+               autocomplete="off" spellcheck="false">
+        <button id="clearInput" class="input-clear" type="button" aria-label="Clear search">×</button>
+      </div>
     </div>
 
-    <label for="column" class="search-in-label">Search in</label>
+    <div class="button-row">
+      <button id="searchBtn" class="search-btn" type="button">⌕ &nbsp; Search</button>
+      <button id="clearBtn" class="clear-btn" type="button">↶ &nbsp; Clear</button>
+    </div>
+
+    <label for="column" class="search-label">Search in</label>
     <select id="column">
       <option value="all">All Columns</option>
       <option value="Divison">Division</option>
@@ -35,45 +44,43 @@
       <option value="Discount 21.18%">Discount 21.18%</option>
       <option value="Discount">Discount</option>
     </select>
-
-    <div class="status">
-      <strong id="resultCount">Loading data...</strong>
-      <span id="hint">Enter 3 or more characters to search.</span>
-    </div>
   </section>
 
-  <!-- Desktop table -->
-  <section class="desktop-results">
-    <div class="table-wrap">
+  <section class="summary">
+    <strong id="resultCount">Loading data...</strong>
+    <span id="hint">Enter 3 or more characters to search.</span>
+  </section>
+
+  <section class="results-card">
+    <div class="table-scroll">
       <table>
         <thead>
           <tr>
+            <th>Item Code</th>
+            <th>Description</th>
             <th>Division</th>
             <th>Category</th>
-            <th>Item Code</th>
-            <th>Item Description</th>
             <th>SDP</th>
             <th>NRP</th>
             <th>MRP</th>
-            <th>Discount 21.18%</th>
-            <th>Discount</th>
+            <th class="discount-col">Discount<br>21.18%</th>
+            <th class="discount-col">Discount</th>
           </tr>
         </thead>
         <tbody id="results"></tbody>
       </table>
     </div>
+    <div id="empty" class="empty">Enter a search term to see matching products.</div>
   </section>
 
-  <!-- Mobile cards -->
-  <section id="mobileResults" class="mobile-results"></section>
-
-  <div id="empty" class="empty">Enter a search term to see matching products.</div>
-
-  <div class="pagination">
-    <button id="prevBtn" type="button">‹ Previous</button>
+  <section class="pagination">
+    <button id="prevBtn" type="button">‹ &nbsp; Previous</button>
     <span id="pageInfo">Page 0 of 0</span>
-    <button id="nextBtn" type="button">Next ›</button>
-  </div>
+    <button id="nextBtn" type="button">Next &nbsp; ›</button>
+  </section>
+
+  <div class="record-info" id="recordInfo"></div>
+
 </div>
 <script src="script.js"></script>
 </body>
