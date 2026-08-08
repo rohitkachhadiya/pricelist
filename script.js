@@ -19,7 +19,6 @@ let requestId = 0;
 let searchTimer = null;
 
 const searchInput = document.getElementById("search");
-const clearInput = document.getElementById("clearInput");
 const resultsBody = document.getElementById("results");
 const resultCount = document.getElementById("resultCount");
 const hint = document.getElementById("hint");
@@ -29,9 +28,6 @@ const nextBtn = document.getElementById("nextBtn");
 const pageInfo = document.getElementById("pageInfo");
 const recordInfo = document.getElementById("recordInfo");
 
-// IMPORTANT: no reference to mobileResults.
-// This fixes the previous:
-// "Cannot set properties of null (setting 'innerHTML')"
 const worker = new Worker("search-worker.js");
 
 fetch("data.json", { cache: "default" })
@@ -46,13 +42,14 @@ fetch("data.json", { cache: "default" })
 
     worker.postMessage({
       type: "load",
-      data
+      data: data
     });
   })
   .catch(error => {
     resultCount.textContent = "Error loading data";
     hint.textContent = error.message;
-    empty.textContent = "Check that data.json is in the same folder as index.html.";
+    empty.textContent =
+      "Check that data.json is in the same folder as index.html.";
   });
 
 worker.onmessage = event => {
@@ -63,7 +60,6 @@ worker.onmessage = event => {
       `${message.count.toLocaleString()} records loaded`;
 
     hint.textContent = "Enter 3 or more characters to search.";
-
     render();
     return;
   }
@@ -80,7 +76,6 @@ worker.onmessage = event => {
       `${filteredIndices.length === 1 ? "" : "s"}`;
 
     hint.textContent = "Searching all columns.";
-
     render();
   }
 };
@@ -102,26 +97,25 @@ function runSearch() {
       `${data.length.toLocaleString()} records loaded`;
 
     hint.textContent = "Enter 3 or more characters to search.";
-
     render();
     return;
   }
 
-  const currentRequestId = ++requestId;
+  const id = ++requestId;
 
   worker.postMessage({
     type: "search",
-    term,
-    requestId: currentRequestId
+    term: term,
+    requestId: id
   });
 }
 
 function render() {
-  // The only results container is the actual table tbody.
   resultsBody.innerHTML = "";
 
   if (filteredIndices.length === 0) {
     empty.style.display = "block";
+
     empty.textContent =
       searchInput.value.trim().length >= 3
         ? "No matching records found."
@@ -131,7 +125,6 @@ function render() {
     recordInfo.textContent = "";
     prevBtn.disabled = true;
     nextBtn.disabled = true;
-
     return;
   }
 
@@ -151,21 +144,13 @@ function render() {
 
   const fragment = document.createDocumentFragment();
 
-  for (let position = start; position < end; position++) {
-    const row = data[filteredIndices[position]];
+  for (let p = start; p < end; p++) {
+    const row = data[filteredIndices[p]];
     const tr = document.createElement("tr");
 
     for (const column of columns) {
       const td = document.createElement("td");
       td.textContent = row[column] ?? "";
-
-      if (
-        column === "Discount 21.18%" ||
-        column === "Discount"
-      ) {
-        td.classList.add("discount-cell");
-      }
-
       tr.appendChild(td);
     }
 
@@ -185,38 +170,13 @@ function render() {
   nextBtn.disabled = currentPage === totalPages;
 }
 
-searchInput.addEventListener("input", () => {
-  clearInput.style.display =
-    searchInput.value.length > 0 ? "block" : "none";
-
-  scheduleSearch();
-});
-
-clearInput.addEventListener("click", () => {
-  searchInput.value = "";
-  clearInput.style.display = "none";
-
-  requestId++;
-  filteredIndices = [];
-  currentPage = 1;
-
-  resultCount.textContent =
-    `${data.length.toLocaleString()} records loaded`;
-
-  hint.textContent = "Enter 3 or more characters to search.";
-
-  render();
-  searchInput.focus();
-});
+searchInput.addEventListener("input", scheduleSearch);
 
 prevBtn.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
     render();
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
 
@@ -228,9 +188,6 @@ nextBtn.addEventListener("click", () => {
   if (currentPage < totalPages) {
     currentPage++;
     render();
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 });
