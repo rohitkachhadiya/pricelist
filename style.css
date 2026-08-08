@@ -256,11 +256,7 @@ tbody tr:hover {
   font-size: 14px;
 }
 
-/*
-  MOBILE
-  All 9 columns remain visible.
-  No horizontal scrolling.
-*/
+/* MOBILE: preserve readable price values with horizontal table scrolling. */
 @media (max-width: 700px) {
   .container {
     padding: 10px;
@@ -292,12 +288,12 @@ tbody tr:hover {
   }
 
   .table-container {
-    overflow-x: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   table {
-    width: 100%;
-    min-width: 0;
+    min-width: 920px;
     table-layout: fixed;
   }
 
@@ -322,13 +318,18 @@ tbody tr:hover {
   th:nth-child(8) { width: 10%; }
   th:nth-child(9) { width: 8%; }
 
+  /* Keep all monetary values and discounts on a single line. */
   td:nth-child(5),
   td:nth-child(6),
-  td:nth-child(7) {
-    white-space: normal;
+  td:nth-child(7),
+  td:nth-child(8),
+  td:nth-child(9) {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
-  td:nth-child(1),
+  td:nth-child(3),
   td:nth-child(8),
   td:nth-child(9) {
     font-weight: 800;
