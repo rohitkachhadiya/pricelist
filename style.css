@@ -180,7 +180,8 @@ th:nth-child(7) { width: 9%; }
 th:nth-child(8) { width: 10%; }
 th:nth-child(9) { width: 9%; }
 
-td:nth-child(1) {
+/* Item Code is the third column in the JSON/table sequence. */
+td:nth-child(3) {
   color: var(--blue);
   font-weight: 800;
 }
