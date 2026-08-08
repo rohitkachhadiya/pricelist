@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Search</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Product Search</h1>
+    <p>Fast search across your product database</p>
+  </header>
+
+  <section class="search-panel">
+    <div class="search-row">
+      <div class="field">
+        <label for="search">Search</label>
+        <input id="search" type="search" placeholder="Type at least 3 characters..."
+               autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field small">
+        <label for="column">Search in</label>
+        <select id="column">
+          <option value="all">All Columns</option>
+          <option value="Divison">Division</option>
+          <option value="Category">Category</option>
+          <option value="Item Code">Item Code</option>
+          <option value="Item Description">Item Description</option>
+          <option value="SDP">SDP</option>
+          <option value="NRP">NRP</option>
+          <option value="MRP">MRP</option>
+          <option value="Discount 21.18%">Discount 21.18%</option>
+          <option value="Discount">Discount</option>
+        </select>
+      </div>
+      <button id="clearBtn" type="button">Clear</button>
+    </div>
+    <div class="status">
+      <span id="resultCount">Loading data...</span>
+      <span id="hint">Enter 3 or more characters to search.</span>
+    </div>
+  </section>
+
+  <section class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Division</th><th>Category</th><th>Item Code</th>
+          <th>Item Description</th><th>SDP</th><th>NRP</th><th>MRP</th>
+          <th>Discount 21.18%</th><th>Discount</th>
+        </tr>
+      </thead>
+      <tbody id="results"></tbody>
+    </table>
+    <div id="empty" class="empty">Enter a search term to see matching products.</div>
+  </section>
+
+  <div class="pagination">
+    <button id="prevBtn" type="button">‹ Previous</button>
+    <span id="pageInfo">Page 0 of 0</span>
+    <button id="nextBtn" type="button">Next ›</button>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
